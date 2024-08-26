@@ -22,8 +22,8 @@ export function teacherView (files) {
 
 
 		// Handle incoming messages
-	   const filesArray = ['index.js']
-		ws.send(JSON.stringify({files :filesArray}))
+	//    const filesArray = ['index.js']
+		ws.send(JSON.stringify({files :files}))
 
 
 
@@ -73,7 +73,7 @@ export function teacherView (files) {
 
 }
 
-// export class teacherWebViewProvider implements vscode.WebviewViewProvider {
+//  class teacherWebViewProvider implements vscode.WebviewViewProvider {
 //     constructor(context : vscode.ExtensionContext) {
 
 //     }

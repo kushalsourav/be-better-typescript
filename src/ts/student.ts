@@ -17,6 +17,11 @@ const files: Array<string> = []
     console.log(data)
     const data1 = new TextEncoder().encode(JSON.stringify(data))
     ws.send(data1);
+
+    vscode.window.onDidChangeActiveTextEditor(e => {
+      const encode = new TextEncoder().encode()
+      ws.send(encode)
+    })
   });
 
   ws.on('message', function incoming(data: any) {
