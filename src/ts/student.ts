@@ -10,7 +10,7 @@ const files: Array<string> = []
 
 
   // const ws = new WebSocket(`ws://${clientData.code}:3000/`);
-  const ws = new WebSocket(`ws://192.168.42.68:3000/`);
+  const ws = new WebSocket(`ws://170.20.10.8:3000/`);
   ws.on('open', function open() {
     console.log('Connected to server');
     const data = clientData

@@ -9,6 +9,7 @@ export class ButtonCreate extends HTMLButtonElement {
         this.style.outline = 'none'
         this.style.border = 'none'
         this.addEventListener("click", () => {
+            console.log("clcking")
             vscode.postMessage({
                 command: 'role',
                 role: 'create',

@@ -5,7 +5,7 @@ export function teacherView (context : vscode.ExtensionContext, file : []) {
     console.log("from teacher view")
 
     let clients: any = [];
-	const wss = new WebSocketServer({ host: '192.168.42.68', port: 3000 });
+	const wss = new WebSocketServer({ host: '170.20.10.8', port: 3000 });
 	wss.on('connection', function connection(ws) {
 		console.log('Client connected');
        

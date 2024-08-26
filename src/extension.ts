@@ -314,10 +314,12 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 			}
            
 			if (message.command === 'role') {
+				console.log(message.command)
 				this.data = message.role
-				this.getData(message.role)
+				
 				vscode.window.showErrorMessage(message.role)
 				if (message.role === 'create') {
+					console.log(message.role)
 					webviewView.webview.html = `
 					<link rel="stylesheet" href="${cssUri}" />
 					<section id="main">

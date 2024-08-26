@@ -122,18 +122,18 @@ const inputCode = document.querySelector('.input-code');
 
 console.log(inputCode, inputName,inputRegno)
 
-inputCode.addEventListener('change', (e) => {
+inputCode?.addEventListener('change', (e) => {
     console.log(e)
     vscode.postMessage({
         code: e.target.value
     })
 })
-inputRegno.addEventListener('change', (e) => {
+inputRegno?.addEventListener('change', (e) => {
     vscode.postMessage({
         regno: e.target.value
     })
 })
-inputName.addEventListener('change', (e) => {
+inputName?.addEventListener('change', (e) => {
     vscode.postMessage({
         name: e.target.value
     })

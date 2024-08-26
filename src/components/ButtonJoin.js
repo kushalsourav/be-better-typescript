@@ -3,7 +3,7 @@ import { vscode } from "../js/script.js";
 export class ButtonJoin extends HTMLButtonElement {
   
     constructor() {
-
+        console.log("clcking")
         super();
         this.textContent = 'join'
         this.style.color = "#fff"
