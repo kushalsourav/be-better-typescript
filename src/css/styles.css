@@ -23,7 +23,7 @@ section {
 .cta-btn:hover {
     background-color: #38383861;
 }
-.create-title-input, .create-file-input {
+.create-title-input, .create-file-input, .enter-title-input {
     padding: 10px 0 10px 20px;
     background: transparent;
     border: 2px solid #34343490;
@@ -33,7 +33,7 @@ section {
     margin-bottom: 20px;
 }
 
-.create-title-input:focus , .create-file-input:focus{
+.create-title-input:focus , .create-file-input:focus,.enter-title-input:focus{
     border-color: #23232390;
     outline: none;
 }

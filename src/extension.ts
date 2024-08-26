@@ -2,11 +2,11 @@
 import path from 'path';
 import * as vscode from 'vscode';
 import { WebSocket, WebSocketServer, Server } from 'ws';
-import http from  'node:http'
+import http from 'node:http'
 import { get } from 'http';
 import { stat } from 'fs';
-import { teacherView, teacherWebViewProvider } from './ts/teacher';
-import { studentView, studentWebViewProvider } from './ts/student';
+import { teacherView } from './ts/teacher';
+import { studentView } from './ts/student';
 
 //golbal variable 
 
@@ -40,74 +40,92 @@ import { studentView, studentWebViewProvider } from './ts/student';
 // // 	})
 // // }
 
-const teacher = () => {
-	const hostname = '192.168.157.1';
-const port = 3000;
+// const teacher = () => {
+// 	// const hostname = '192.168.157.1';
+// 	// const port = 3000;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\n');
-});
+// 	// const server = http.createServer((req, res) => {
+// 	// 	res.statusCode = 200;
+// 	// 	res.setHeader('Content-Type', 'text/plain');
+// 	// 	res.end('Hello, World!\n');
+// 	// });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-}); 
-const FileSchema = {
-	code: '', //code to join
-    files : [], //to be sent to students 
-	group: [], // contains the details of users who hav joined and files and ws connection is shared among the users in the array
-	connectionString: '', // a string is sent to user to establish peer to peer connection 
+// 	// server.listen(port, hostname, () => {
+// 	// 	console.log(`Server running at http://${hostname}:${port}/`);
+// 	// });
+// 	// const FileSchema = {
+// 	// 	code: '', //code to join
+// 	// 	files: [], //to be sent to students 
+// 	// 	group: [], // contains the details of users who hav joined and files and ws connection is shared among the users in the array
+// 	// 	connectionString: '', // a string is sent to user to establish peer to peer connection 
 
-}
-let clients: any = [];
-const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
-wss.on('connection', function connection(ws) {
-  console.log('Client connected');
+// 	// }
+// 	let clients: any = [];
+// 	const wss = new WebSocketServer({ host: '192.168.42.68', port: 3000 });
+// 	wss.on('connection', function connection(ws) {
+// 		console.log('Client connected');
+       
+// 		// Create a new client object and add it to the clients array
+// 		const clientObj = {
+// 			ws: ws,
+// 			id: '',
+// 			messages: []
+// 		};
+// 		clients.push(clientObj);
+// 		console.log(clients)
 
-  // Create a new client object and add it to the clients array
-  const clientObj = {
-    ws: ws,
-    id: Date.now(), // Unique ID for the client, could use something else like UUID
-    messages: []
-  };
-  clients.push(clientObj);
-  console.log(clients)
-  // Handle incoming messages
-  ws.on('message', function message(data: any) {
-    const newData = new TextDecoder().decode(data);
-    console.log('Received from client:', newData);
 
-    // Find the client object that corresponds to this WebSocket connection
-    const client = clients.find(client => client.ws === ws);
 
-    if (client) {
+// 		// Handle incoming messages
+// 		const filesArray = ['script.js', 'index.html', 'styles.css']
+// 		ws.send(JSON.stringify({files :filesArray}))
 
-      client.messages.push(newData);
-      console.log(`Message stored for client ${client.id}:`, client.messages);
-    } else {
-      console.error('Client not found for this message.');
-    }
-  });
 
-  // Handle errors
-  ws.on('error', (error: any) => {
-    console.error('WebSocket error:', error);
-  });
 
-  // Handle client disconnection
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  
-  });
 
-  // Send a welcome message to the client
-  const welcomeMessage = JSON.stringify({ message: "Welcome to the server!", id: clientObj.id });
-  ws.send(welcomeMessage);
 
-});
-console.log(clients)
-}
+// 		ws.on('message', function message(data: any) {
+
+
+
+
+
+
+// 			const newData = JSON.parse(new TextDecoder().decode(data));
+
+// 			console.log('Received from client:', newData);
+		
+
+// 			// Find the client object that corresponds to this WebSocket connection
+// 			const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
+
+// 			if (client) {
+
+				
+// 				console.log(`Message stored for client ${client.id}:`, client.messages);
+// 			} else {
+// 				console.error('Client not found for this message.');
+// 			}
+// 		});
+
+// 		// Handle errors
+// 		ws.on('error', (error: any) => {
+// 			console.error('WebSocket error:', error);
+// 		});
+
+// 		// Handle client disconnection
+// 		ws.on('close', () => {
+// 			console.log('Client disconnected');
+
+// 		});
+
+// 		// Send a welcome message to the client
+// 		const welcomeMessage = JSON.stringify({ message: "Welcome to the server!", id: clientObj.id });
+// 		ws.send(welcomeMessage);
+
+// 	});
+// 	console.log(clients)
+// }
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -116,14 +134,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "be-better-typescript" is now active!');
 	// const wss = new WebSocketServer({ port: 8080 });
-     teacher()
+
 	// wss.on('connection', function connection(ws) {
 	//   ws.on('error', console.error);
 	//  console.log("conntection established")
 	//   ws.on('message', function message(data) {
 	// 	console.log('received: %s', data);
 	//   });
-	
+
 	//   ws.send('something');
 	// });
 	// const server = new Server({port: 8080})
@@ -160,7 +178,17 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	function getData(dat: string) {
-		switchRoles(dat)
+		const code = context.workspaceState.get('code');
+		const regno = context.workspaceState.get('regno');
+		const username = context.workspaceState.get('username');
+		const files = context.workspaceState.get('files');
+
+		const clientData : object = {
+           name: username,
+		   code: code,
+		   regno: regno
+		}
+		switchRoles(dat, clientData, files)
 		console.log(data)
 	}
 
@@ -177,20 +205,20 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 
-	const switchRoles = (role: string) => {
-
+	const switchRoles = (role: string, clientData: object, files: any) => {
+        const file: [] = JSON.parse(files)
 		switch (role) {
-		 case 'join':
-			 console.log('joining')
-              studentView()
-			 break;
-		 case 'teacher':
-			 console.log('creating')
-		
-			 const webview = vscode.window.createWebviewPanel('webview', 'teacher-view', {viewColumn: 1}, {
-				enableScripts: true
-			 })
-			 webview.webview.html = `
+			case 'student':
+				console.log('joining')
+				studentView(context,clientData)
+				break;
+			case 'teacher':
+				console.log('creating')
+                 teacherView(context, file)
+				const webview = vscode.window.createWebviewPanel('webview', 'teacher-view', { viewColumn: 1 }, {
+					enableScripts: true
+				})
+				webview.webview.html = `
 			 <html>
 <body>
 <h1>  teacher omg</h>
@@ -212,16 +240,16 @@ export function activate(context: vscode.ExtensionContext) {
 </body>
 </html>
 			 `
-			 break;
-		 default:
-			 break;
+				break;
+			default:
+				break;
 		}
 
 
 
 
 
-	 }
+	}
 
 }
 
@@ -232,6 +260,11 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 	data: any;
 	getData: any;
 	welcomeView: any;
+	// userData : object = {
+    //   regno: '',
+	//   name: '',
+	//   code: ''
+	// }
 	constructor(private context: vscode.ExtensionContext, getData: any) {
 		this.getData = getData
 		this.data = 'welcome'
@@ -264,40 +297,71 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 	`
 
 		webviewView.webview.onDidReceiveMessage(message => {
+			const userData = {
+				name: '',
+				regno: '',
+				code: ''
+			}
+			if(message.name) {
+				this.context.workspaceState.update('username', message.name);
+			}
 
+			if(message.regno) {
+				this.context.workspaceState.update('regno', message.regno);
+			}
+			if(message.code) {
+				this.context.workspaceState.update('code', message.code);
+			}
+           
 			if (message.command === 'role') {
 				this.data = message.role
-                this.getData(message.role)
+				this.getData(message.role)
 				vscode.window.showErrorMessage(message.role)
 				if (message.role === 'create') {
 					webviewView.webview.html = `
-				<link rel="stylesheet" href="${cssUri}" />
-			<section id="main">
-				<input type="text" class="create-title-input" placeholder="enter code here" />
-    <br />
-    <br />
-    <input type="text" class="create-file-input" placeholder="enter file name" />
-    <button class="add-button cta-btn">Add Files</button>
-	<div class="files-view">
-	
-     <template class="template-files-list"> 
+					<link rel="stylesheet" href="${cssUri}" />
+					<section id="main">
+						<input type="text" class="create-title-input" placeholder="enter code here" />
+						<br />
+						<br />
+						<input type="text" class="create-file-input" placeholder="enter file name" />
+						<button class="add-button cta-btn">Add Files</button>
+						<div class="files-view">
 
-       <ul class="files-list">
-		
-	   </ul>
+							<template class="template-files-list">
 
-	 </template>
-	 </div>
-	<button is="create-test-button" class="create-button cta-btn">create</button>
-				</section> 
-			
-				<script type="module" src=${scriptUri}></script>
+								<ul class="files-list">
+
+								</ul>
+
+							</template>
+						</div>
+						<button is="create-test-button" class="create-button cta-btn">create</button>
+					</section>
+
+					<script type="module" src=${scriptUri}></script>
 				`
-
+				}
+				if (message.role === 'join') {
+				
+					webviewView.webview.html = `
+					<link rel="stylesheet" href="${cssUri}" />
+					<section id="main">
+						<input type="text" class="enter-title-input input-code" placeholder="enter code here" />
+						<input type="text" class="enter-title-input input-regno" placeholder="register num" />
+						<input type="text" class="enter-title-input input-name" placeholder="name" />
+						<button is="join-code-button" class="join-code-button cta-btn"></button>
+					</section>
+					<script type="module" src=${scriptUri}></script>
+				`
 				}
 			}
 
-			if(message.switch === 'teacher') {
+			if (message.switch === 'teacher') {
+				this.context.workspaceState.update('files', message.files);
+				this.getData(message.switch)
+			}
+			if (message.switch === 'student') {
 				this.getData(message.switch)
 			}
 
@@ -315,26 +379,6 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 	}
 }
 
-// class myViewProvider implements vscode.TreeDataProvider<myTree> {
-//   constructor(private context : vscode.ExtensionContext) {}
-
-//     getTreeItem(element: myTree): vscode.TreeItem  {
-// 		return element
-// 	}
-// 	getChildren(element?: myTree): myTree[] {
-// 		return [
-// 			new myTree('label 1')
-
-// 		]
-// 	}
-// }
-
-// class myTree extends vscode.TreeItem {
-// 	constructor(label: string) {
-// 		super(label);
-// 	}
-// }
-// This method is called when your extension is deactivated
 
 
 export function deactivate() { }

@@ -1,7 +1,9 @@
+
 import { ButtonCreate } from "../components/ButtonCreate.js";
 import { ButtonJoin } from "../components/ButtonJoin.js";
 import { DisplayAddedFiles } from "../components/DisplayAddedFiles.js";
 import { ButtonTestCreate } from "../components/ButtonTestCreate.js";
+import { ButtonCode } from "../components/ButtonCode.js";
 //global variable
 
 export const vscode = acquireVsCodeApi();
@@ -51,7 +53,6 @@ buttonCreate.setAttribute('id', 'create-button')
 const buttonTestCreate = new ButtonTestCreate();
 
 
-
 export const getRole = (rol) => {
     console.log("clicking", rol)
    role = rol
@@ -64,7 +65,7 @@ export const getRole = (rol) => {
 var fileName = document.querySelector('.create-file-input');
 var addFileButton = document.querySelector('.add-button');
 
-addFileButton.addEventListener('click', (e) => {
+addFileButton?.addEventListener('click', (e) => {
     e.preventDefault();
     console.log(proxyInitialData)
     proxyInitialData.files =   fileName.value
@@ -109,10 +110,34 @@ console.log(displayFilesList)
 
 displayFilesList.setAttribute('is', 'file-view');
 
-filesView.appendChild(displayFilesList)
+filesView?.appendChild(displayFilesList)
 
 
+const buttonCode = new ButtonCode();
 
+
+const inputName = document.querySelector('.input-name');
+const inputRegno = document.querySelector('.input-regno');
+const inputCode = document.querySelector('.input-code');
+
+console.log(inputCode, inputName,inputRegno)
+
+inputCode.addEventListener('change', (e) => {
+    console.log(e)
+    vscode.postMessage({
+        code: e.target.value
+    })
+})
+inputRegno.addEventListener('change', (e) => {
+    vscode.postMessage({
+        regno: e.target.value
+    })
+})
+inputName.addEventListener('change', (e) => {
+    vscode.postMessage({
+        name: e.target.value
+    })
+})
 
 export default proxyInitialData;
 

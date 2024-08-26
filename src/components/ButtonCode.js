@@ -1,23 +1,22 @@
 import { vscode } from "../js/script.js";
 
-export class ButtonTestCreate extends HTMLButtonElement {
+export class ButtonCode extends HTMLButtonElement {
+  
     constructor() {
+
         super();
-        this.textContent = 'create'
+        this.textContent = 'join'
         this.style.color = "#fff"
         this.style.letterSpacing = '1px'
         this.style.outline = 'none'
         this.style.border = 'none'
         this.addEventListener("click", () => {
             vscode.postMessage({
-                switch: 'teacher',
-                files: JSON.stringify(app.initialData.files)
+               switch: 'student'
             })
         })
     }
 
-   
-
 };
 
-customElements.define('create-test-button', ButtonTestCreate, {extends: 'button'})
+customElements.define('join-code-button', ButtonCode, {extends: 'button'})
