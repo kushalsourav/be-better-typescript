@@ -216,7 +216,7 @@ export function activate(context: vscode.ExtensionContext) {
 			case 'teacher':
 				console.log('creating')
 				console.log(file)
-                 teacherView()
+                 teacherView(file)
 				
 				break;
 			default:

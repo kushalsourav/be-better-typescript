@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { WebSocketServer } from 'ws';
 
-export function teacherView () {
+export function teacherView (files) {
     console.log("from teacher view")
 
     let clients: any = [];
@@ -17,7 +17,7 @@ export function teacherView () {
 			messages: []
 		};
 		clients.push(clientObj);
-		console.log(clients, "files here :")
+		console.log(clients, "files here :", files)
 
 
 
