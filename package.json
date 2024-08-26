@@ -1,0 +1,79 @@
+{
+  "name": "be-better-typescript",
+  "displayName": "be-better",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.54.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "primary-sidebar",
+          "title": "primary-sidebar",
+          "icon": ""
+        }
+      ]
+    },
+    "views": {
+      "primary-sidebar": [
+        {
+          "type": "webview",
+          "id": "welcome-view",
+          "name": "welcome-view",
+          "icon": ""
+        },
+        {
+          "type": "webview",
+          "id": "teacher-view",
+          "name": "teacher-view",
+          "icon": ""
+        },
+        {
+          "type": "webview",
+          "id": "student-view",
+          "name": "student-view",
+          "icon": ""
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "be-better-typescript.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "be-better-typescript.welcomeSidebar",
+        "title": "Hide File Explorer"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/html": "^1.0.4",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.54.0",
+    "@types/ws": "^8.5.12",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5",
+    "ws": "^8.18.0"
+  }
+}
