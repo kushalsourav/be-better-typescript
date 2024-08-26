@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
 import { WebSocketServer } from 'ws';
 
-export function teacherView (context : vscode.ExtensionContext, file : []) {
+export function teacherView () {
     console.log("from teacher view")
 
     let clients: any = [];
-	const wss = new WebSocketServer({ host: '170.20.10.8', port: 3000 });
+	const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
 	wss.on('connection', function connection(ws) {
+		console.log("created connecteion")
 		console.log('Client connected');
        
 		// Create a new client object and add it to the clients array
@@ -16,13 +17,13 @@ export function teacherView (context : vscode.ExtensionContext, file : []) {
 			messages: []
 		};
 		clients.push(clientObj);
-		console.log(clients, "files here :", file)
+		console.log(clients, "files here :")
 
 
 
 		// Handle incoming messages
-	   
-		ws.send(JSON.stringify({files :file}))
+	   const filesArray = ['index.js']
+		ws.send(JSON.stringify({files :filesArray}))
 
 
 

@@ -134,7 +134,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "be-better-typescript" is now active!');
 	// const wss = new WebSocketServer({ port: 8080 });
-
+	//teacherView()
 	// wss.on('connection', function connection(ws) {
 	//   ws.on('error', console.error);
 	//  console.log("conntection established")
@@ -207,6 +207,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const switchRoles = (role: string, clientData: object, files: any) => {
         const file: [] = JSON.parse(files)
+		console.log(role)
 		switch (role) {
 			case 'student':
 				console.log('joining')
@@ -214,32 +215,9 @@ export function activate(context: vscode.ExtensionContext) {
 				break;
 			case 'teacher':
 				console.log('creating')
-                 teacherView(context, file)
-				const webview = vscode.window.createWebviewPanel('webview', 'teacher-view', { viewColumn: 1 }, {
-					enableScripts: true
-				})
-				webview.webview.html = `
-			 <html>
-<body>
-<h1>  teacher omg</h>
-  <script>
-    const ws = new WebSocket('ws://localhost:3000');
-    ws.onopen = function() {
-      console.log('Connected to server');
-    };
-    ws.onmessage = function(event) {
-      console.log('Received message from server:', event.data);
-    };
-    ws.onerror = function(error) {
-      console.error('WebSocket error:', error);
-    };
-    ws.onclose = function() {
-      console.log('Disconnected from server');
-    };
-  </script>
-</body>
-</html>
-			 `
+				console.log(file)
+                 teacherView()
+				
 				break;
 			default:
 				break;
