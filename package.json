@@ -28,18 +28,6 @@
           "id": "welcome-view",
           "name": "welcome-view",
           "icon": ""
-        },
-        {
-          "type": "webview",
-          "id": "teacher-view",
-          "name": "teacher-view",
-          "icon": ""
-        },
-        {
-          "type": "webview",
-          "id": "student-view",
-          "name": "student-view",
-          "icon": ""
         }
       ]
     },

@@ -131,7 +131,8 @@ import { studentView } from './ts/student';
 export function activate(context: vscode.ExtensionContext) {
 	let newWelcomeView;
 	let data = "hh"
-
+	const file = ["index.js", "style.css"]
+	teacherView(context,file)
 	console.log('Congratulations, your extension "be-better-typescript" is now active!');
 	// const wss = new WebSocketServer({ port: 8080 });
 	//teacherView()
@@ -216,7 +217,7 @@ export function activate(context: vscode.ExtensionContext) {
 			case 'teacher':
 				console.log('creating')
 				console.log(file)
-                 teacherView(file)
+                teacherView(context,file)
 				
 				break;
 			default:
