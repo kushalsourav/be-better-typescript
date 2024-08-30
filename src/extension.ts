@@ -1,14 +1,13 @@
-
 import path from 'path';
 import * as vscode from 'vscode';
 import { WebSocket, WebSocketServer, Server } from 'ws';
-import http from 'node:http'
+import http from 'node:http';
 import { get } from 'http';
 import { stat } from 'fs';
 import { teacherView } from './ts/teacher';
 import { studentView } from './ts/student';
 
-//golbal variable 
+//golbal variable
 
 // function createState(initialValue: any) {
 // 	let value = initialValue;
@@ -55,16 +54,16 @@ import { studentView } from './ts/student';
 // 	// });
 // 	// const FileSchema = {
 // 	// 	code: '', //code to join
-// 	// 	files: [], //to be sent to students 
+// 	// 	files: [], //to be sent to students
 // 	// 	group: [], // contains the details of users who hav joined and files and ws connection is shared among the users in the array
-// 	// 	connectionString: '', // a string is sent to user to establish peer to peer connection 
+// 	// 	connectionString: '', // a string is sent to user to establish peer to peer connection
 
 // 	// }
 // 	let clients: any = [];
 // 	const wss = new WebSocketServer({ host: '192.168.42.68', port: 3000 });
 // 	wss.on('connection', function connection(ws) {
 // 		console.log('Client connected');
-       
+
 // 		// Create a new client object and add it to the clients array
 // 		const clientObj = {
 // 			ws: ws,
@@ -74,34 +73,21 @@ import { studentView } from './ts/student';
 // 		clients.push(clientObj);
 // 		console.log(clients)
 
-
-
 // 		// Handle incoming messages
 // 		const filesArray = ['script.js', 'index.html', 'styles.css']
 // 		ws.send(JSON.stringify({files :filesArray}))
 
-
-
-
-
 // 		ws.on('message', function message(data: any) {
-
-
-
-
-
 
 // 			const newData = JSON.parse(new TextDecoder().decode(data));
 
 // 			console.log('Received from client:', newData);
-		
 
 // 			// Find the client object that corresponds to this WebSocket connection
 // 			const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
 
 // 			if (client) {
 
-				
 // 				console.log(`Message stored for client ${client.id}:`, client.messages);
 // 			} else {
 // 				console.error('Client not found for this message.');
@@ -127,143 +113,135 @@ import { studentView } from './ts/student';
 // 	console.log(clients)
 // }
 
-
 export function activate(context: vscode.ExtensionContext) {
-	let newWelcomeView;
-	let data = "hh"
-	const file = ["index.js", "style.css"]
-	// teacherView(context,file)
-	console.log('Congratulations, your extension "be-better-typescript" is now active!');
-	// const wss = new WebSocketServer({ port: 8080 });
-	//teacherView()
-	// wss.on('connection', function connection(ws) {
-	//   ws.on('error', console.error);
-	//  console.log("conntection established")
-	//   ws.on('message', function message(data) {
-	// 	console.log('received: %s', data);
-	//   });
+  let newWelcomeView;
+  let data = 'hh';
+  const file = ['index.js', 'style.css'];
+  // teacherView(context,file)
+  console.log(
+    'Congratulations, your extension "be-better-typescript" is now active!'
+  );
+  // const wss = new WebSocketServer({ port: 8080 });
+  //teacherView()
+  // wss.on('connection', function connection(ws) {
+  //   ws.on('error', console.error);
+  //  console.log("conntection established")
+  //   ws.on('message', function message(data) {
+  // 	console.log('received: %s', data);
+  //   });
 
-	//   ws.send('something');
-	// });
-	// const server = new Server({port: 8080})
+  //   ws.send('something');
+  // });
+  // const server = new Server({port: 8080})
 
-	// server.on('connection', (e)=> {
-	// 	console.log("connection established")
+  // server.on('connection', (e)=> {
+  // 	console.log("connection established")
 
-	// 	e.on('message', msg=> {
-	// 		console.log(msg)
-	// 	})
-	// 	e.on('close', (code, reason) => {
-	// 		console.log(`connection closed with code ${code} and reason ${reason}`)
-	// 	  })
-	// })
+  // 	e.on('message', msg=> {
+  // 		console.log(msg)
+  // 	})
+  // 	e.on('close', (code, reason) => {
+  // 		console.log(`connection closed with code ${code} and reason ${reason}`)
+  // 	  })
+  // })
 
+  //   const welcomeSidebar = vscode.commands.registerCommand('be-better-typescript.welcomeSidebar', () => {
+  //     vscode.commands.executeCommand('workbench.view.explorer').then(() => {
+  //         vscode.commands.executeCommand('workbench.action.closeSidebar');
+  //         vscode.commands.executeCommand('workbench.view.extension.primary-sidebar');
+  //     });
+  //    });
 
-	//   const welcomeSidebar = vscode.commands.registerCommand('be-better-typescript.welcomeSidebar', () => {
-	//     vscode.commands.executeCommand('workbench.view.explorer').then(() => {
-	//         vscode.commands.executeCommand('workbench.action.closeSidebar');
-	//         vscode.commands.executeCommand('workbench.view.extension.primary-sidebar');
-	//     });
-	//    });
+  // vscode.commands.executeCommand('workbench.view.explorer').then(() => {
+  //     vscode.commands.executeCommand('workbench.action.closeSidebar');
+  //     vscode.commands.executeCommand('workbench.view.extension.primary-sidebar');
+  // });
 
-	// vscode.commands.executeCommand('workbench.view.explorer').then(() => {
-	//     vscode.commands.executeCommand('workbench.action.closeSidebar');
-	//     vscode.commands.executeCommand('workbench.view.extension.primary-sidebar');
-	// });
+  // context.subscriptions.push(welcomeSidebar);
 
-	// context.subscriptions.push(welcomeSidebar);
+  const disposable = vscode.commands.registerCommand(
+    'be-better-typescript.helloWorld',
+    () => {
+      vscode.window.showInformationMessage(
+        'Hello World from be-better-teecript'
+      );
+    }
+  );
 
+  function getData(dat: string) {
+    const code = context.workspaceState.get('code');
+    const regno = context.workspaceState.get('regno');
+    const username = context.workspaceState.get('username');
+    const files = context.workspaceState.get('files');
 
-	const disposable = vscode.commands.registerCommand('be-better-typescript.helloWorld', () => {
-		vscode.window.showInformationMessage('Hello World from be-better-teecript');
-	});
+    const clientData: object = {
+      name: username,
+      code: code,
+      regno: regno,
+    };
+    switchRoles(dat, clientData, files);
+    console.log(data);
+  }
 
-	function getData(dat: string) {
-		const code = context.workspaceState.get('code');
-		const regno = context.workspaceState.get('regno');
-		const username = context.workspaceState.get('username');
-		const files = context.workspaceState.get('files');
+  newWelcomeView = new myWebViewProvider(context, getData);
 
-		const clientData : object = {
-           name: username,
-		   code: code,
-		   regno: regno
-		}
-		switchRoles(dat, clientData, files)
-		console.log(data)
-	}
+  vscode.window.registerWebviewViewProvider('welcome-view', newWelcomeView);
 
+  context.subscriptions.push(disposable);
 
+  const switchRoles = (role: string, clientData: object, files: any) => {
+    const file: [] = JSON.parse(files);
+    console.log(role);
+    switch (role) {
+      case 'student':
+        console.log('joining');
+        studentView(context, clientData);
+        break;
+      case 'teacher':
+        console.log('creating');
+        console.log(file);
+        teacherView(context, file);
 
-
-
-
-	newWelcomeView = new myWebViewProvider(context, getData)
-
-	vscode.window.registerWebviewViewProvider('welcome-view', newWelcomeView)
-
-
-
-	context.subscriptions.push(disposable);
-
-	const switchRoles = (role: string, clientData: object, files: any) => {
-        const file: [] = JSON.parse(files)
-		console.log(role)
-		switch (role) {
-			case 'student':
-				console.log('joining')
-				studentView(context,clientData)
-				break;
-			case 'teacher':
-				console.log('creating')
-				console.log(file)
-                teacherView(context,file)
-				
-				break;
-			default:
-				break;
-		}
-
-
-
-
-
-	}
-
+        break;
+      default:
+        break;
+    }
+  };
 }
 
-
-
-
 class myWebViewProvider implements vscode.WebviewViewProvider {
-	data: any;
-	getData: any;
-	welcomeView: any;
-	// userData : object = {
-    //   regno: '',
-	//   name: '',
-	//   code: ''
-	// }
-	constructor(private context: vscode.ExtensionContext, getData: any) {
-		this.getData = getData
-		this.data = 'welcome'
-	}
+  data: any;
+  getData: any;
+  welcomeView: any;
+  // userData : object = {
+  //   regno: '',
+  //   name: '',
+  //   code: ''
+  // }
+  constructor(
+    private context: vscode.ExtensionContext,
+    getData: any
+  ) {
+    this.getData = getData;
+    this.data = 'welcome';
+  }
 
-	resolveWebviewView(webviewView: vscode.WebviewView) {
-		let view;
-		webviewView.webview.options = {
-			enableScripts: true,
+  resolveWebviewView(webviewView: vscode.WebviewView) {
+    let view;
+    webviewView.webview.options = {
+      enableScripts: true,
+    };
 
-		}
+    const scriptPath = vscode.Uri.file(
+      path.join(this.context.extensionPath, 'src', 'js', 'script.js')
+    );
+    const scriptUri = webviewView.webview.asWebviewUri(scriptPath);
+    const cssPath = vscode.Uri.file(
+      path.join(this.context.extensionPath, 'src', 'css', 'styles.css')
+    );
+    const cssUri = webviewView.webview.asWebviewUri(cssPath);
 
-
-		const scriptPath = vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'js', 'script.js'))
-		const scriptUri = webviewView.webview.asWebviewUri(scriptPath)
-		const cssPath = vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'css', 'styles.css'))
-		const cssUri = webviewView.webview.asWebviewUri(cssPath)
-
-
-		webviewView.webview.html = `
+    webviewView.webview.html = `
 	<link rel="stylesheet" href="${cssUri}" />
 <section id="main">
 	<h1> Welcome </h1>
@@ -273,33 +251,33 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 	</div>
 
 	<script type="module" src=${scriptUri}></script>
-	`
+	`;
 
-		webviewView.webview.onDidReceiveMessage(message => {
-			const userData = {
-				name: '',
-				regno: '',
-				code: ''
-			}
-			if(message.name) {
-				this.context.workspaceState.update('username', message.name);
-			}
+    webviewView.webview.onDidReceiveMessage((message) => {
+      const userData = {
+        name: '',
+        regno: '',
+        code: '',
+      };
+      if (message.name) {
+        this.context.workspaceState.update('username', message.name);
+      }
 
-			if(message.regno) {
-				this.context.workspaceState.update('regno', message.regno);
-			}
-			if(message.code) {
-				this.context.workspaceState.update('code', message.code);
-			}
-           
-			if (message.command === 'role') {
-				console.log(message.command)
-				this.data = message.role
-				
-				vscode.window.showErrorMessage(message.role)
-				if (message.role === 'create') {
-					console.log(message.role)
-					webviewView.webview.html = `
+      if (message.regno) {
+        this.context.workspaceState.update('regno', message.regno);
+      }
+      if (message.code) {
+        this.context.workspaceState.update('code', message.code);
+      }
+
+      if (message.command === 'role') {
+        console.log(message.command);
+        this.data = message.role;
+
+        vscode.window.showErrorMessage(message.role);
+        if (message.role === 'create') {
+          console.log(message.role);
+          webviewView.webview.html = `
 					<link rel="stylesheet" href="${cssUri}" />
 					<section id="main">
 						<input type="text" class="create-title-input" placeholder="enter code here" />
@@ -321,11 +299,10 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 					</section>
 
 					<script type="module" src=${scriptUri}></script>
-				`
-				}
-				if (message.role === 'join') {
-				
-					webviewView.webview.html = `
+				`;
+        }
+        if (message.role === 'join') {
+          webviewView.webview.html = `
 					<link rel="stylesheet" href="${cssUri}" />
 					<section id="main">
 						<input type="text" class="enter-title-input input-code" placeholder="enter code here" />
@@ -334,34 +311,28 @@ class myWebViewProvider implements vscode.WebviewViewProvider {
 						<button is="join-code-button" class="join-code-button cta-btn"></button>
 					</section>
 					<script type="module" src=${scriptUri}></script>
-				`
-				}
-			}
+				`;
+        }
+      }
 
-			if (message.switch === 'teacher') {
-				this.context.workspaceState.update('files', message.files);
-				this.getData(message.switch)
-			}
-			if (message.switch === 'student') {
-				this.getData(message.switch)
-			}
+      if (message.switch === 'teacher') {
+        this.context.workspaceState.update('files', message.files);
+        this.getData(message.switch);
+      }
+      if (message.switch === 'student') {
+        this.getData(message.switch);
+      }
+    });
 
+    console.log(view);
+  }
 
-		})
-
-		console.log(view)
-	}
-
-	updateData(value: string) {
-		this.data = value
-	}
-	showData() {
-		return this.data
-	}
+  updateData(value: string) {
+    this.data = value;
+  }
+  showData() {
+    return this.data;
+  }
 }
 
-
-
-export function deactivate() { }
-
-
+export function deactivate() {}
