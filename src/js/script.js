@@ -1,84 +1,68 @@
-
-import { ButtonCreate } from "../components/ButtonCreate.js";
-import { ButtonJoin } from "../components/ButtonJoin.js";
-import { DisplayAddedFiles } from "../components/DisplayAddedFiles.js";
-import { ButtonTestCreate } from "../components/ButtonTestCreate.js";
-import { ButtonCode } from "../components/ButtonCode.js";
+import { ButtonCreate } from '../components/ButtonCreate.js';
+import { ButtonJoin } from '../components/ButtonJoin.js';
+import { DisplayAddedFiles } from '../components/DisplayAddedFiles.js';
+import { ButtonTestCreate } from '../components/ButtonTestCreate.js';
+import { ButtonCode } from '../components/ButtonCode.js';
 //global variable
 
 export const vscode = acquireVsCodeApi();
 
-window.app = {}
+window.app = {};
 let InitialDataTo = {
-    role: [],
-    files : [],
-    fileName : ''
-
-}
-
+  role: [],
+  files: [],
+  fileName: '',
+};
 
 const proxyInitialData = new Proxy(InitialDataTo, {
-    set: (target, property, value) => {
-     
-        if(property == 'files') {
-            target[property].push(value);
-            console.log("from here broo");
-            window.dispatchEvent(new Event("filesupdated"))
-        }
-        if(property == 'fileName') {
-            target[property] = value;
-            window.dispatchEvent(new Event("reciveFileName"))
-        }
-      
-        return true
+  set: (target, property, value) => {
+    if (property == 'files') {
+      target[property].push(value);
+      console.log('from here broo');
+      window.dispatchEvent(new Event('filesupdated'));
     }
-})
+    if (property == 'fileName') {
+      target[property] = value;
+      window.dispatchEvent(new Event('reciveFileName'));
+    }
 
+    return true;
+  },
+});
 
+app.initialData = InitialDataTo;
 
-
-app.initialData = InitialDataTo
-
-
-
-console.log(app.initialData)
+console.log(app.initialData);
 
 const buttonJoin = new ButtonJoin();
-buttonJoin.setAttribute('id', 'join-button')
-
+buttonJoin.setAttribute('id', 'join-button');
 
 const buttonCreate = new ButtonCreate();
-buttonCreate.setAttribute('id', 'create-button')
+buttonCreate.setAttribute('id', 'create-button');
 
 const buttonTestCreate = new ButtonTestCreate();
 
-
 export const getRole = (rol) => {
-    console.log("clicking", rol)
-   role = rol
-   obj.role = rol
-   console.log("clicking", rol, role)
-
-}
-
+  console.log('clicking', rol);
+  role = rol;
+  obj.role = rol;
+  console.log('clicking', rol, role);
+};
 
 var fileName = document.querySelector('.create-file-input');
 var addFileButton = document.querySelector('.add-button');
 
 addFileButton?.addEventListener('click', (e) => {
-    e.preventDefault();
-    console.log(proxyInitialData)
-    proxyInitialData.files =   fileName.value
-    proxyInitialData.fileName = fileName.value
-    vscode.postMessage({
-        command: 'files',
-        data: JSON.stringify(app.initialData.filesArray)
-    })
-    fileName.value = ''
-})
-
-
-
+  e.preventDefault();
+  console.log(proxyInitialData);
+  proxyInitialData.files = fileName.value;
+  proxyInitialData.fileName = fileName.value;
+  vscode.postMessage({
+    command: 'files',
+    data: JSON.stringify(app.initialData.filesArray),
+  });
+  fileName.value = '';
+});
 
 // setInterval(() => {
 //     console.log(app.initialData)
@@ -98,53 +82,45 @@ addFileButton?.addEventListener('click', (e) => {
 //     }
 // })
 
-
-
 window.addEventListener('filesupdated', (e) => {
-    console.log('Files array was changed.');
+  console.log('Files array was changed.');
 });
 
-const filesView = document.querySelector('.files-view') 
+const filesView = document.querySelector('.files-view');
 const displayFilesList = new DisplayAddedFiles();
-console.log(displayFilesList)
+console.log(displayFilesList);
 
 displayFilesList.setAttribute('is', 'file-view');
 
-filesView?.appendChild(displayFilesList)
-
+filesView?.appendChild(displayFilesList);
 
 const buttonCode = new ButtonCode();
-
 
 const inputName = document.querySelector('.input-name');
 const inputRegno = document.querySelector('.input-regno');
 const inputCode = document.querySelector('.input-code');
 
-console.log(inputCode, inputName,inputRegno)
+console.log(inputCode, inputName, inputRegno);
 
 inputCode?.addEventListener('change', (e) => {
-    console.log(e)
-    vscode.postMessage({
-        code: e.target.value
-    })
-})
+  console.log(e);
+  vscode.postMessage({
+    code: e.target.value,
+  });
+});
 inputRegno?.addEventListener('change', (e) => {
-    vscode.postMessage({
-        regno: e.target.value
-    })
-})
+  vscode.postMessage({
+    regno: e.target.value,
+  });
+});
 inputName?.addEventListener('change', (e) => {
-    vscode.postMessage({
-        name: e.target.value
-    })
-})
+  vscode.postMessage({
+    name: e.target.value,
+  });
+});
 
-window.addEventListener('message' , (e) => {
-    console.log(e.data)
- })
+window.addEventListener('message', (e) => {
+  console.log(e.data);
+});
 
 export default proxyInitialData;
-
-
-
-

@@ -1,65 +1,60 @@
-console.log('hell oworld')
-import { DisplayClient } from "../components/Displayclient.js"
-import { DisplayText } from "../components/DisplayText.js"
-window.stream = {}
+console.log('hell oworld');
+import { DisplayClient } from '../components/Displayclient.js';
+import { DisplayText } from '../components/DisplayText.js';
+window.stream = {};
 
 const initialData = {
-    clients: []
-}
+  clients: [],
+};
 
-stream.initialData = initialData
+stream.initialData = initialData;
 
 const proxyInitialData = new Proxy(initialData, {
-    set: (target, property, value) => {
-     
-        if(property == 'clients') {
-            target[property]  = value;
-            console.log("from here broo");
-            window.dispatchEvent(new Event("clientupdated"))
-        }      
-        return true
+  set: (target, property, value) => {
+    if (property == 'clients') {
+      target[property] = value;
+      console.log('from here broo');
+      window.dispatchEvent(new Event('clientupdated'));
     }
-})
+    return true;
+  },
+});
 
-const p =document.createElement('p');
-
+const p = document.createElement('p');
 
 window.addEventListener('clientupdated', (e) => {
-    console.log(initialData.clients)
-// for (const [key, value] of Object.entries(initialData.clients)) {
-//     p.textContent = value;
-//     editorInstance.setValue(value)
-   
-// }
-})
+  console.log(initialData.clients);
+  // for (const [key, value] of Object.entries(initialData.clients)) {
+  //     p.textContent = value;
+  //     editorInstance.setValue(value)
+
+  // }
+});
 
 const columnOne = document.querySelector('.dashboard-col-1');
 const columnTwo = document.querySelector('.dashboard-col-2');
 // columnOne.appendChild(p)
 
-
-const displayClient  = new DisplayClient();
+const displayClient = new DisplayClient();
 displayClient.setAttribute('is', 'client-list');
 
 displayClient.textContent = 'yooo';
 
-columnOne.appendChild(displayClient)
+columnOne.appendChild(displayClient);
 
 const displayText = new DisplayText();
 displayText.setAttribute('is', 'text-list');
 
-displayText.textContent = "uy"
-columnTwo.appendChild(displayText)
+displayText.textContent = 'uy';
+columnTwo.appendChild(displayText);
 
-
-
-window.addEventListener('message' , (e) => {
-   console.log(e)
-   if(e.data.command === 'client') {
-    const data = JSON.parse(e.data.client)
-    proxyInitialData.clients = data
-   }
-})
+window.addEventListener('message', (e) => {
+  console.log(e);
+  if (e.data.command === 'client') {
+    const data = JSON.parse(e.data.client);
+    proxyInitialData.clients = data;
+  }
+});
 
 // require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.21.2/min/vs' } });
 
@@ -70,11 +65,10 @@ window.addEventListener('message' , (e) => {
 //         ].join('\n'),
 //         language: 'javascript',
 //         theme: 'vs-dark'
-        
-//     });
-    
-// });
 
+//     });
+
+// });
 
 // function getEditorValue() {
 //     if (editorInstance) {
