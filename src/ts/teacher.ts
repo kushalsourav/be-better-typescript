@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { parse } from 'path';
 import * as vscode from 'vscode';
 import fs from "node:fs"
 import { WebSocketServer } from 'ws';
@@ -38,8 +38,8 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 	
 
 	//const ws = new WebSocket(`ws://192.168.234.134:3000/`);
-	const wss = new WebSocketServer({ host: '192.168.234.123', port: 3000 });
-	//const wss = new WebSocketServer({ host: '192.168.234.68', port: 3000 });
+	//const wss = new WebSocketServer({ host: '192.168.234.123', port: 3000 });
+	const wss = new WebSocketServer({ host: '192.168.234.68', port: 3000 });
 	//const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
 	wss.on('connection', function connection(ws) {
 		console.log("created connecteion")
@@ -93,21 +93,28 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 				// 	command: 'client',
 				// 	client: JSON.stringify({hello : 'hello'}) // Ensure the data is correctly serialized
 				// });
-			    if (teacherWebview && teacherWebview.webview) {
-					teacherWebview.webview.postMessage({
-						command: 'client',
-						client: JSON.stringify(parsedData)
-					});
-					console.log('Message sent to webview');
-				} else {
-					console.error('Webview is not ready');
-				}
+			    
 		
 				const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
 		
 				if (client) {
-					client.files = parsedData;
-					//console.log(`Message stored for client ${client.id}:`, client.files);
+					if(parsedData.type === 'clientDetails') {
+						client.id = parsedData.data.regno
+						client.code = parsedData.data.code
+						client.name = parsedData.data.name
+					}
+					if(parsedData.type === 'files') {
+						client.files = parsedData.userFiles
+					}
+					if (teacherWebview && teacherWebview.webview) {
+						teacherWebview.webview.postMessage({
+							command: 'client',
+							client: JSON.stringify(clients)
+						});
+						console.log('Message sent to webview');
+					} else {
+						console.error('Webview is not ready');
+					}
 				} else {
 					console.error('Client not found for this message.');
 				}

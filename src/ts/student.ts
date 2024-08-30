@@ -18,14 +18,14 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
 
 
   // const ws = new WebSocket(`ws://${clientData.code}:3000/`);
- // const ws = new WebSocket(`ws://192.168.234.68:3000/`);
-   const ws = new WebSocket(`ws://192.168.234.134:3000/`);
+  const ws = new WebSocket(`ws://192.168.234.68:3000/`);
+ //  const ws = new WebSocket(`ws://192.168.234.134:3000/`);
   //const ws = new WebSocket(`ws://172.20.10.8:3000/`);
   ws.on('open', function open() {
     console.log('Connected to server');
     const data = clientData
     console.log(data)
-    const data1 = new TextEncoder().encode(JSON.stringify(data))
+    const data1 = new TextEncoder().encode(JSON.stringify({data: data, type: 'clientDetails'}) )
     ws.send(data1);
 
 
@@ -97,7 +97,7 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
 
         // const fileList = vscode.workspace.fs.readDirectory(vscode.Uri.file(path.join(context.extensionPath, 'src', 'files'))).then(e => e)
         // console.log("fileList",fileList.then(e => console.log(e)))
-        const userDetails: any = {
+        const userFiles: any = {
 
         }
         // const directoryPath = path.join(context.extensionPath, 'src', 'files');
@@ -113,7 +113,7 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
         //     });
         
         //     readStream.on('end', () => {
-        //       userDetails[fileName] = fileContent; 
+        //       userFiles[fileName] = fileContent; 
         //       resolve();
         //     });
         
@@ -138,7 +138,7 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
         
         //   Promise.all(fileReadPromises)
         //     .then(() => {
-        //       const encodeFilesData = new TextEncoder().encode(JSON.stringify(userDetails))
+        //       const encodeFilesData = new TextEncoder().encode(JSON.stringify(userFiles))
         //       ws.send(encodeFilesData)
 
              
@@ -163,8 +163,8 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
               const decodedData = new TextDecoder().decode(text)
             
 
-              userDetails[fileName] = decodedData
-              const encodeFilesData = new TextEncoder().encode(JSON.stringify(userDetails))
+              userFiles[fileName] = decodedData
+              const encodeFilesData = new TextEncoder().encode(JSON.stringify({userFiles: userFiles, type: 'files'}))
               ws.send(encodeFilesData)
 
 
@@ -172,7 +172,7 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
 
          });
        })
-        console.log(userDetails)
+        //console.log(userFiles)
         // console.log("fileList", fileList.then(e => console.log(e)))
         if (ws.readyState === WebSocket.OPEN) {
 
@@ -190,12 +190,12 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
     // })
   })
 
-  const watcher = vscode.workspace.createFileSystemWatcher(
-    new vscode.RelativePattern(
-      path.join(context.extensionPath, 'src', 'files'), 
-      '**/*'  
-    )
-  );
+  // const watcher = vscode.workspace.createFileSystemWatcher(
+  //   new vscode.RelativePattern(
+  //     path.join(context.extensionPath, 'src', 'files'), 
+  //     '**/*'  
+  //   )
+  // );
 
 
 
