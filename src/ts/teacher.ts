@@ -9,7 +9,8 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 
     let clients : any = []
 	const teacherWebview = vscode.window.createWebviewPanel('teacher-view', 'teacher-view', { viewColumn: 1 }, {
-		enableScripts: true
+		enableScripts: true,
+		retainContextWhenHidden: true
 	})
 
 	
@@ -34,18 +35,12 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 
 	class MyEmitter extends EventEmitter {}
 
-	const myEmitter = new MyEmitter();
-	myEmitter.on('event', (data) => {
-		console.log(data)
-	  	teacherWebview.webview.postMessage({
-					command: 'client',
-					client: JSON.stringify(data)
-				})
-	});
+	
 
-
+	//const ws = new WebSocket(`ws://192.168.234.134:3000/`);
+	const wss = new WebSocketServer({ host: '192.168.234.123', port: 3000 });
 	//const wss = new WebSocketServer({ host: '192.168.234.68', port: 3000 });
-	const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
+	//const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
 	wss.on('connection', function connection(ws) {
 		console.log("created connecteion")
 		console.log('Client connected');
@@ -60,36 +55,66 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 		const filesArray = ['script.js', 'style.css', 'index.html']
 		ws.send(JSON.stringify({ files: filesArray }))
 
-		ws.on('message', function message(data: any) {
+		// ws.on('message', function message(data: any) {
 
-			const newData = new TextDecoder().decode(data);
-			teacherWebview.webview.postMessage({
-				command: 'client',
-				client: JSON.stringify(newData)
-			})
+		// 	const newData = new TextDecoder().decode(data);
+		// 	teacherWebview.webview.postMessage({
+		// 		command: 'client',
+		// 		client: JSON.stringify(newData)
+		// 	})
 		
-			const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
+		// 	const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
 
-			if (client) {
-				const parsedData = JSON.parse(newData)
+		// 	if (client) {
+		// 		const parsedData = JSON.parse(newData)
 
-				clientObj.files = parsedData
-				teacherWebview.webview.postMessage({
-					command: 'client',
-					client: JSON.stringify("hello")
-				})
+		// 		clientObj.files = parsedData
+		// 		teacherWebview.webview.postMessage({
+		// 			command: 'client',
+		// 			client: JSON.stringify("hello")
+		// 		})
 			
 
 			
 
-				// console.log(`Message stored for client ${client.id}:`, clientObj);
+		// 		console.log(`Message stored for client ${client.id}:`, clientObj);
 				
-			} else {
-				console.error('Client not found for this message.');
+		// 	} else {
+		// 		console.error('Client not found for this message.');
+		// 	}
+
+		// });
+		ws.on('message', function message(data: any) {
+			try {
+				const newData = new TextDecoder().decode(data);
+				const parsedData = JSON.parse(newData);
+		
+				// teacherWebview.webview.postMessage({
+				// 	command: 'client',
+				// 	client: JSON.stringify({hello : 'hello'}) // Ensure the data is correctly serialized
+				// });
+			    if (teacherWebview && teacherWebview.webview) {
+					teacherWebview.webview.postMessage({
+						command: 'client',
+						client: JSON.stringify(parsedData)
+					});
+					console.log('Message sent to webview');
+				} else {
+					console.error('Webview is not ready');
+				}
+		
+				const client = clients.find((client: { ws: import("ws"); }) => client.ws === ws);
+		
+				if (client) {
+					client.files = parsedData;
+					//console.log(`Message stored for client ${client.id}:`, client.files);
+				} else {
+					console.error('Client not found for this message.');
+				}
+			} catch (error) {
+				console.error('Error processing WebSocket message:', error);
 			}
-
 		});
-
 
 		ws.on('error', (error: any) => {
 			console.error('WebSocket error:', error);

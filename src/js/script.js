@@ -139,9 +139,9 @@ inputName?.addEventListener('change', (e) => {
     })
 })
 
-// window.addEventListener('message' , (e) => {
-//     console.log(e.data)
-//  })
+window.addEventListener('message' , (e) => {
+    console.log(e.data)
+ })
 
 export default proxyInitialData;
 

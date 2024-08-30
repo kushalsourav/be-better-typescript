@@ -18,8 +18,9 @@ export function studentView(context: vscode.ExtensionContext, clientData: object
 
 
   // const ws = new WebSocket(`ws://${clientData.code}:3000/`);
-  // const ws = new WebSocket(`ws://192.168.234.68:3000/`);
-  const ws = new WebSocket(`ws://172.20.10.8:3000/`);
+ // const ws = new WebSocket(`ws://192.168.234.68:3000/`);
+   const ws = new WebSocket(`ws://192.168.234.134:3000/`);
+  //const ws = new WebSocket(`ws://172.20.10.8:3000/`);
   ws.on('open', function open() {
     console.log('Connected to server');
     const data = clientData

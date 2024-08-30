@@ -40,3 +40,8 @@ section {
 .create-button {
     margin-top: 30px;
 }
+
+.dashboard-col-1 {
+    width: 800px;
+    height: 800px;
+}
