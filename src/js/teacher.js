@@ -1,5 +1,5 @@
 console.log('hell oworld');
-import { DisplayClient } from '../components/Displayclient.js';
+import { DisplayClient } from '../components/DisplayClient.js';
 import { DisplayText } from '../components/DisplayText.js';
 window.stream = {};
 
@@ -9,7 +9,7 @@ const initialData = {
 
 stream.initialData = initialData;
 
-const proxyInitialData = new Proxy(initialData, {
+const proxyInitialDisplayData = new Proxy(initialData, {
   set: (target, property, value) => {
     if (property == 'clients') {
       target[property] = value;
@@ -38,21 +38,21 @@ const columnTwo = document.querySelector('.dashboard-col-2');
 const displayClient = new DisplayClient();
 displayClient.setAttribute('is', 'client-list');
 
-displayClient.textContent = 'yooo';
+displayClient.textContent = 'Students connected';
 
 columnOne.appendChild(displayClient);
 
 const displayText = new DisplayText();
 displayText.setAttribute('is', 'text-list');
 
-displayText.textContent = 'uy';
+displayText.textContent = 'view';
 columnTwo.appendChild(displayText);
 
 window.addEventListener('message', (e) => {
   console.log(e);
   if (e.data.command === 'client') {
     const data = JSON.parse(e.data.client);
-    proxyInitialData.clients = data;
+    proxyInitialDisplayData.clients = data;
   }
 });
 
@@ -78,3 +78,6 @@ window.addEventListener('message', (e) => {
 //         return null;
 //     }
 // }
+
+
+export {proxyInitialDisplayData}

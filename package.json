@@ -17,7 +17,7 @@
         {
           "id": "primary-sidebar",
           "title": "primary-sidebar",
-          "icon": ""
+          "icon": "media/1.svg"
         }
       ]
     },
@@ -26,8 +26,8 @@
         {
           "type": "webview",
           "id": "welcome-view",
-          "name": "welcome-view",
-          "icon": ""
+          "name": "welcome-view"
+          
         }
       ]
     },

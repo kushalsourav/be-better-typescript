@@ -53,9 +53,9 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
 
   //const ws = new WebSocket(`ws://192.168.234.134:3000/`);
   //const wss = new WebSocketServer({ host: '192.168.234.123', port: 3000 });
-  // const wss = new WebSocketServer({ host: '192.168.234.68', port: 3000 });
+   const wss = new WebSocketServer({ host: '192.168.234.68', port: 3000 });
   //const wss = new WebSocketServer({ host: '172.20.10.8', port: 3000 });
-  const wss = new WebSocketServer({ host: '172.20.10.2', port: 3000 });
+  //const wss = new WebSocketServer({ host: '172.20.10.2', port: 3000 });
   wss.on('connection', function connection(ws) {
     console.log('created connecteion');
     console.log('Client connected');
@@ -68,7 +68,7 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
     clients.push(clientObj);
 
     const filesArray = ['script.js', 'style.css', 'index.html'];
-    ws.send(JSON.stringify({ files: filesArray }));
+    ws.send(JSON.stringify({ files: files }));
 
     // ws.on('message', function message(data: any) {
 
@@ -151,3 +151,4 @@ export function teacherView(context: vscode.ExtensionContext, files: any) {
     ws.send(welcomeMessage);
   });
 }
+
