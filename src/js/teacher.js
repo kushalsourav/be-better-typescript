@@ -1,5 +1,5 @@
 console.log('hell oworld');
-import { DisplayClient } from '../components/Displayclient.js';
+import { DisplayClient } from '../components/DisplayClient.js';
 import { DisplayText } from '../components/DisplayText.js';
 window.stream = {};
 
